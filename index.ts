@@ -1,13 +1,18 @@
-import fastify from 'fastify';
-import getData from './prisma/services/getData.ts';
+import Fastify from 'fastify';
+import fs from 'fs';
+import register from './prisma/services/register';
 
-const server = fastify();
-
-server.get('/ping', async () => {
-  await getData();
+const fastify = Fastify({
+  logger: true,
+  https: {
+    key: fs.readFileSync('./server.key'),
+    cert: fs.readFileSync('./server.crt'),
+  },
 });
 
-server.listen({ port: 8080 }, (err, address) => {
+fastify.post('/register', async (req) => register(req));
+
+fastify.listen({ port: 8080 }, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);
