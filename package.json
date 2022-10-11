@@ -33,6 +33,7 @@
   "dependencies": {
     "@prisma/client": "^4.4.0",
     "argon2": "^0.29.1",
+    "dotenv": "^16.0.3",
     "fastify": "^4.7.0"
   }
 }
