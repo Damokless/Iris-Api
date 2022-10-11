@@ -9,25 +9,17 @@ datasource db {
 
 model appsCredentials {
   id                 Int     @id @default(autoincrement())
-  users_id           Int?
+  users_id           String? @db.Uuid
   tiktok_accessToken String? @db.VarChar
   tiktok_openId      String? @db.VarChar
   users              users?  @relation(fields: [users_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model tokens {
-  id         Int     @id @default(autoincrement())
-  users_id   Int?
-  user_token String? @db.VarChar
-  users      users?  @relation(fields: [users_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
 model users {
-  id              Int               @id @default(autoincrement())
+  id              String            @id @default(uuid())
   username        String?           @db.VarChar
   email           String?           @db.VarChar
   password        String?           @db.VarChar
-  created_at      DateTime?         @db.Timestamp(6)
+  created_at      DateTime?         @default(now()) @db.Timestamp(6)
   appsCredentials appsCredentials[]
-  tokens          tokens[]
 }

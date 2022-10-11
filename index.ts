@@ -10,7 +10,7 @@ const fastify = Fastify({
   },
 });
 
-fastify.post('/register', async (req) => register(req));
+fastify.post('/register', async (req) => register(req.body));
 
 fastify.listen({ port: 8080 }, (err, address) => {
   if (err) {
