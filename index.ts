@@ -1,8 +1,9 @@
 // Imports libs and imports api services
 import Fastify from 'fastify';
+import fastifyJwt from '@fastify/jwt';
 import fs from 'fs';
-import register from './prisma/services/register';
-import login from './prisma/services/login';
+import register from './services/register';
+import login from './services/login';
 
 /* Creating a new instance of the Fastify server with HTTPS protocol. */
 const fastify = Fastify({
@@ -11,6 +12,9 @@ const fastify = Fastify({
     key: fs.readFileSync('./server.key'),
     cert: fs.readFileSync('./server.crt'),
   },
+});
+fastify.register(fastifyJwt, {
+  secret: 'supersecret',
 });
 
 /* Creating a new routes for the server. */
