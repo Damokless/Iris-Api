@@ -19,7 +19,7 @@ fastify.register(fastifyJwt, {
 
 /* Creating a new routes for the server. */
 fastify.post('/register', async (req) => register(req.body));
-fastify.post('/login', async (req) => login(req.body));
+fastify.post('/login', async (req) => login(req.body, fastify));
 
 /* Listening to the port 4000 and if there is an error it will log it and exit the process. */
 fastify.listen({ port: 4000 }, (err, address) => {
