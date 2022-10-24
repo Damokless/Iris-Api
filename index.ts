@@ -2,6 +2,9 @@
 import Fastify from 'fastify';
 import fastifyJwt from '@fastify/jwt';
 import fs from 'fs';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 import register from './services/register';
 import login from './services/login';
 
@@ -14,11 +17,11 @@ const fastify = Fastify({
   },
 });
 fastify.register(fastifyJwt, {
-  secret: 'supersecret',
+  secret: `${process.env.SECRET_TOKEN}`,
 });
 
 /* Creating a new routes for the server. */
-fastify.post('/register', async (req) => register(req.body));
+fastify.post('/register', async (req) => register(req.body, fastify));
 fastify.post('/login', async (req) => login(req.body, fastify));
 
 /* Listening to the port 4000 and if there is an error it will log it and exit the process. */
