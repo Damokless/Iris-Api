@@ -1,12 +1,13 @@
 // Imports libs and imports api services
 import Fastify from 'fastify';
 import fastifyJwt from '@fastify/jwt';
+import cors from '@fastify/cors';
 import fs from 'fs';
 import * as dotenv from 'dotenv';
-
-dotenv.config();
 import register from './services/register';
 import login from './services/login';
+
+dotenv.config();
 
 /* Creating a new instance of the Fastify server with HTTPS protocol. */
 const fastify = Fastify({
@@ -16,9 +17,8 @@ const fastify = Fastify({
     cert: fs.readFileSync('./server.crt'),
   },
 });
-fastify.register(fastifyJwt, {
-  secret: `${process.env.SECRET_TOKEN}`,
-});
+fastify.register(fastifyJwt, { secret: `${process.env.SECRET_TOKEN}` })
+  .register(cors, { origin: true });
 
 /* Creating a new routes for the server. */
 fastify.post('/register', async (req) => register(req.body, fastify));
