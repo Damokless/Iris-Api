@@ -2,7 +2,6 @@
 import Fastify from 'fastify';
 import fastifyJwt from '@fastify/jwt';
 import cors from '@fastify/cors';
-import fs from 'fs';
 import * as dotenv from 'dotenv';
 import register from './services/register';
 import login from './services/login';
@@ -14,10 +13,6 @@ dotenv.config();
 /* Creating a new instance of the Fastify server with HTTPS protocol. */
 const fastify = Fastify({
   logger: true,
-  https: {
-    key: fs.readFileSync('./server.key'),
-    cert: fs.readFileSync('./server.crt'),
-  },
 });
 fastify.register(fastifyJwt, { secret: `${process.env.SECRET_TOKEN}` })
   .register(cors, { origin: true });
