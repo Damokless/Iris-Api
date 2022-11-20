@@ -6,7 +6,7 @@ export default function tiktok(): string {
   url += '?client_key=awagptjbwxwwq0rm';
   url += '&scope=user.info.basic,video.list';
   url += '&response_type=code';
-  url += '&redirect_uri=https://iris-api-sdzp.onrender.com/tiktokAUTHCallback';
+  url += '&redirect_uri=iris-api-sdzp.onrender.com/tiktokAUTHCallback';
   url += `&state=${csrfState}`;
 
   return url;
