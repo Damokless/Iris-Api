@@ -6,6 +6,8 @@ import fs from 'fs';
 import * as dotenv from 'dotenv';
 import register from './services/register';
 import login from './services/login';
+import tiktok from './services/tiktok';
+import tiktokCallback from './services/tiktokCallback';
 
 dotenv.config();
 
@@ -19,13 +21,16 @@ const fastify = Fastify({
 });
 fastify.register(fastifyJwt, { secret: `${process.env.SECRET_TOKEN}` })
   .register(cors, { origin: true });
+const port: number = Number(process.env.PORT) || 4000;
 
 /* Creating a new routes for the server. */
 fastify.post('/register', async (req) => register(req.body, fastify));
 fastify.post('/login', async (req) => login(req.body, fastify));
+fastify.get('/tiktokAUTH', async (req, res) => res.redirect(tiktok()));
+fastify.get('/tiktokAUTHCallback', async (req) => tiktokCallback(req.body));
 
 /* Listening to the port 4000 and if there is an error it will log it and exit the process. */
-fastify.listen({ port: 4000 }, (err, address) => {
+fastify.listen({ port }, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);
